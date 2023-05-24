@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans&display=swap');
+
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    font-family: 'Merriweather', serif;
+
+}
+
+body {
+    background-image: url(img_bg_1.jpg);
+    
+    background-position: 50% 109.385px;
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 200wh;
+    height: 100vh;
+    /* padding-top: 10px; */
+}
+
+
+nav {
+    /* background-color: #e1a775; */
+    background-color:  #c9e3da;
+    display: inline-flex;
+}
+
+.logo-container {
+    margin-left: 4rem !important;
+}
+
+nav img {
+    width: 90px;
+    height: 55px;
+    padding-left: 20px;
+}
+
+@media (max-width : 923px) {
+    .navbar-toggler-icon {
+        background-image: url(menu-bars-icon-10.jpg);
+        width: 100px;
+        height: 27px;
+    }
+}
+
+.nav-link:active,
+.nav-link:hover,
+.nav-link:focus {
+    color: white;
+}
+
+.nav-item a {
+    font-family: 'Merriweather', serif;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 20px;
+    /* color: #876954; */
+   color: #77686d;
+}
+
+
+
+.all-courses{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.course{
+	overflow: hidden;
+	background: #ffffff;
+	color: #21201e;
+	text-align: center;
+	width: 300px;
+	height: 250px;
+	padding: 2rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border-radius: 1.2rem;
+	margin: 115px;
+
+}
+
+.course .course-title, .course .courses-id{
+	font-size: 18px;
+}
+
+.course:hover img{
+	scale:  1.1;
+}
+
+.course:hover {
+    box-shadow: 1px 1px 3px 3px #77686d;
+}
+
+
+
+.course a:link, .course a:visited{
+    color: #77686d;
+	display: inline-block;
+	text-decoration: none;
+    background-color:  #c9e3da;
+	padding: 1.2rem 3rem;
+	border-radius: 1rem;
+	margin-top: 1rem;
+	font-size: 14px;
+	transition: all 0.2s;
+
+}
+
+div.buttom {
+    text-align: center;
+    color: black
+}
+
+.buttom input {
+    color: white;
+    background-color:#c9e3da;
+    /* background-color: #e1a775; */
+    padding: 7px;
+    margin: 15px 0 15px 2px;
+    border-radius: 18px;
+    /* width: 165px; */
+    margin-right: 21px;
+    width: 100px;
+    border-color: #c9e3da;
+
+}
+.buttom input:hover{
+    color: #77686d;
+}
+
+.course a:hover{
+	transform: scale(1.1);
+}
