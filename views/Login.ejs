@@ -67,7 +67,12 @@
                 </div>
                 <div class="buttom ">
                     <input style="font-style: italic;" type="submit" value="Login" />
-                </div>           
+                </div>
+                     <div class="alert-danger bold text-center">
+                <% if (error) { %>
+                    <p><%= error %></p>
+                    <% } %>   </div>    
+            </div>
             </div>
         </div>
 
