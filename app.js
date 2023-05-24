@@ -59,17 +59,69 @@ app.get("/", (req, res) => {
   res.render("Home");
 });
 
+//login form for student , admin and doctor
 app.get("/login", (req, res) => {
   res.render("Login");
 });
-app.get("/student_home", (req, res) => {
-  res.render("student_home");
-});
-app.get("/doctor_home", (req, res) => {
-  res.render("doctor_home");
-});
-app.get("/admin_home", (req, res) => {
-  res.render("admin_home");
+// Handle the form submission
+app.post('/login', (req, res) => {
+  console.log(req.body);
+
+  const Email = req.body.Email;
+  const Id = req.body.Id;
+  const user = req.body.user;
+
+  if (Email && Id) {
+    if (user === 'Student') {
+      const query = 'SELECT * FROM student WHERE Email = ? AND Id = ?';
+      connection.query(query, [Email, Id], (error, data) => {
+        if (data.length > 0) {
+          if (data.Id = Id) {
+            req.Id = data.Id;
+            res.redirect('student_home');
+          } else {
+            res.send('Incorrect Id');
+          }
+        } else {
+          res.send('Incorrect Email Address');
+      }
+        res.end();
+      });
+    } else if (user === 'Doctor') {
+      const query = 'SELECT * FROM doctor WHERE Email = ? AND Id = ?';
+      connection.query(query, [Email, Id], (error, data) => {
+        if (data.length > 0) {
+          if (data.Id = Id) {
+            req.Id = data.Id;
+            res.redirect('doctor_home');
+          } else {
+            res.send('Incorrect Id');
+          }
+        } else {
+          res.send('Incorrect Email Address');
+        }
+        res.end();
+      });
+    } else if (user === 'Admin') {
+      const query = 'SELECT * FROM admin WHERE Email = ? AND Id = ?';
+      connection.query(query, [Email, Id], (error, data) => {
+        if (data.length > 0) {
+          if (data.Id = Id) {
+            req.Id = data.Id;
+            res.redirect('admin_home');
+          } else {
+            res.send('Incorrect Id');
+          }
+        } else {
+          res.send('Incorrect Email Address');
+        }
+        res.end();
+      });
+    } else {
+      res.end('Please Enter Email Address and Your Academic Id');
+      res.end();
+    }
+  }
 });
 
 app.get("/upload", (req, res) => {
@@ -183,6 +235,17 @@ app.get("/display_course", (req, res) => {
 app.get("/download_course", (req, res) => {
   res.render("download_course");
 });
+
+app.get("/student_home", (req, res) => {
+  res.render("student_home");
+});
+app.get("/doctor_home", (req, res) => {
+  res.render("doctor_home");
+});
+app.get("/admin_home", (req, res) => {
+  res.render("admin_home");
+});
+
 
 app.get("/enroll_course", (req, res) => {
   res.render("enroll_course");
