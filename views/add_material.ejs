@@ -54,37 +54,39 @@
 <div style="background: rgba(0,0,0,.4); "></div>
     <!-- section 1 -->
     <section >
-        <form action="/login" method="post">
+        <form action="/add_cource" method="post">
             <div class="form col">
                 <div
                     style="border:1px solid  #c9e3da;border-radius: 20px;padding: 13px;   padding-left: 0px;  height: auto;">
                     <div class="cform">
                         <h1>Add Course </h1>
                         <label for="name" style="font-style: italic;"> Name</label> <br> <br>
-                        <input style="font-style: italic;  " placeholder="Enter Cource Name"  type="text" id="name" />
+                        <input name="name" style="font-style: italic;  " placeholder="Enter Cource Name"  type="text" id="name" />
                     </div>
                     <div class="cform">
                         <label for="code" style="font-style: italic;">Cource Code</label><br> <br>
-                        <input placeholder="Enter Cource Code " style="font-style: italic;" type="text" id="code" />
+                        <input name="code" placeholder="Enter Cource Code " style="font-style: italic;" type="text" id="code" />
 
                         <div style="display: flex;">
-                            <label for="department" style="margin-top:20px;font-style: italic;">Required Course</label><br> <br>
-                            <select id="department" style="    margin-left: 30px;color: #77686d; margin-top: 20px;">
-                                <option value="CS">data from database</option>                              
-                            </select>
-                        </div>
-                        <div style="display: flex;">
-                        <label for="department" style="margin-top:20px;font-style: italic;">Department</label><br> <br>
-                        <select id="department" style="    margin-left: 30px;color: #77686d; margin-top: 20px;">
-                            <option value="CS">CS</option>
-                            <option value="IT">IT</option>
-                            <option value="IS">IS</option>
-                            <option value="OR">OR</option>
-                        </select></div>
+                            <label for="required" style="    margin-top: 7px; margin-left: 34px;font-style: italic;">required course</label><br> <br>
+                            <select name="required" id="required" style="margin-left: 30px; color: #77686d; margin-top: 0;">                     
+                                <% course.forEach((required) => { %>
+                                    <option value="<%= required.required_course %>"><%= required.required_course %></option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                            <div style="display: flex;">
+                                <label for="department" style="    margin-top: 7px; margin-left: 34px;font-style: italic;">Department</label><br> <br>
+                                <select name="department" id="department" style="margin-left: 30px; color: #77686d; margin-top: 0;">                     
+                                    <% department.forEach((dept) => { %>
+                                        <option value="<%= dept.department_name %>"><%= dept.department_name %></option>
+                                        <% }); %>
+                                    </select>
+                                </div> 
                         <div class="buttom  ">
                             <input style="font-style: italic;" type="submit" value="Add" />
+                        </div>   
                         </div>
-                
                     </div>
                 </div>
             </form>

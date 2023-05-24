@@ -27,7 +27,7 @@ const mysql = require("mysql");
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "root",
   database: "collage_system",
 });
 
@@ -59,71 +59,19 @@ app.get("/", (req, res) => {
   res.render("Home");
 });
 
-//form to to login for student , admin and doctor
-app.get('/login', function(req, res) {
-  res.render('Login', { error: req.query.error });
+app.get("/login", (req, res) => {
+  res.render("Login");
 });
-// Handle the form submission
-app.post('/login', (req, res) => {
-  console.log(req.body);
-
-  const Email = req.body.Email;
-  const Id = req.body.Id;
-  const user = req.body.user;
-
-  if (Email && Id) {
-    if (user === 'Student') {
-      const query = 'SELECT * FROM student WHERE Email = ? AND Id = ?';
-      connection.query(query, [Email, Id], (error, data) => {
-        if (data.length > 0) {
-          if (data[0].Id === Id) {
-            req.Id = data[0].Id;
-            res.redirect('student_home');
-          } else {
-            res.render('login', { error: 'Incorrect Id' });
-          }
-        } else {
-          res.render('login', { error: 'Incorrect Email Address' });
-        }
-      });
-    } else if (user === 'Doctor') {
-      const query = 'SELECT * FROM doctor WHERE Email = ? AND Id = ?';
-      connection.query(query, [Email, Id], (error, data) => {
-        if (data.length > 0) {
-          if (data[0].Id === Id) {
-            req.Id = data[0].Id;
-            res.redirect('doctor_home');
-          } else {
-            res.render('login', { error: 'Incorrect Id' });
-          }
-        } else {
-          res.render('login', { error: 'Incorrect Email Address' });
-        }
-      });
-    } else if (user === 'Admin') {
-      const query = 'SELECT * FROM admin WHERE Email = ? AND Id = ?';
-      connection.query(query, [Email, Id], (error, data) => {
-        if (data.length > 0) {
-          if (data[0].Id === Id) {
-            req.Id = data[0].Id;
-            res.redirect('admin_home');
-          } else {
-            res.render('login', { error: 'Incorrect Id' });
-          }
-        } else {
-          res.render('login', { error: 'Incorrect Email Address' });
-        }
-      });
-    } else {
-      res.render('login', { error: 'Please Enter Email Address and Your Academic Id' });
-    }
-  // } else {
-  //   res.render('login', { error: 'Please Enter Email Address and Your Academic Id' });
-  }
+app.get("/student_home", (req, res) => {
+  res.render("student_home");
+});
+app.get("/doctor_home", (req, res) => {
+  res.render("doctor_home");
+});
+app.get("/admin_home", (req, res) => {
+  res.render("admin_home");
 });
 
-
-//form to upload file 
 app.get("/upload", (req, res) => {
 
   var con= connection.query("SELECT  DISTINCT course_name FROM course; ", function (err, result , files) {
@@ -132,7 +80,8 @@ app.get("/upload", (req, res) => {
   res.render("upload",{course:result});
 });  
 });
-// Handle the form submission
+
+//form to upload files
 app.post("/upload", upload.single("filename"), (req, res) => {
   console.log(req.body);
   console.log(req.file);
@@ -168,7 +117,61 @@ app.post("/upload", upload.single("filename"), (req, res) => {
   });
 });
 
-// Handle the form submission
+//add course 
+app.post("/add_cource", (req, res) => {
+  console.log(req.body);
+  console.log(req.body.name)
+  console.log(req.body.code)
+  console.log(req.body.department)
+  console.log(req.body.required)
+  const courseName = req.body.name;
+  const courseCode = req.body.code;
+  const departmentOfCourse = req.body.department;
+  const prevCourse = req.body.required;
+
+  const selectQuery = "SELECT course_id FROM course WHERE required_course = ?";
+  const selectQuery2 = "SELECT department_id FROM department WHERE department_name = ?";
+
+  connection.query(selectQuery, [prevCourse], (selectError, selectResults) => {
+    if (selectError) {
+      console.error('Error selecting course_id:', selectError);
+      res.status(500).send('Error selecting course_id');
+    } else {
+      // Extract the course_id from the selectResults
+      const courseId = selectResults[0].course_id;
+
+      connection.query(selectQuery2, [departmentOfCourse], (selectError2, selectResults2) => {
+        if (selectError2) {
+          console.error('Error selecting department_id:', selectError2);
+          res.status(500).send('Error selecting department_id');
+        } else {
+          // Extract the department_id from the selectResults2
+          const departmentId = selectResults2[0].department_id;
+
+          const insertQuery = "INSERT INTO course (course_name, course_code, required_course, department_id) VALUES (?, ?, ?, ?)";
+          connection.query(insertQuery, [courseName, courseCode, prevCourse, departmentId], (insertError, insertResults) => {
+            if (insertError) {
+              console.error('Error inserting data into course table:', insertError);
+              res.status(500).send('Error inserting data into course table');
+            }  else {
+              console.log("Data inserted successfully");
+            //  res.send("Data inserted successfully");
+           // res.render("add_material", { error: 'Please Enter Email Address and Your Academic Id' });
+              res.render("Home")
+            }/*else {
+              console.log('Data inserted into course table successfully');
+              return res.redirect("add_department");
+            }*/
+          });
+        }
+      });
+    }
+  });
+});
+
+
+
+//form to add doctor 
 app.post("/add_doctor", (req, res) => {
   console.log(req.body);
   console.log(req.file);
@@ -206,7 +209,7 @@ app.post("/add_doctor", (req, res) => {
     }
   });
 });
-//form to add doctor
+
 app.get("/add_doctor", (req, res) => {
   var con= connection.query("SELECT  DISTINCT course_name FROM course; ", function (err, result , files) {
     if (err) throw err;
@@ -215,20 +218,22 @@ app.get("/add_doctor", (req, res) => {
 });  
 });
 
-app.get("/student_home", (req, res) => {
-  res.render("student_home");
-});
-app.get("/doctor_home", (req, res) => {
-  res.render("doctor_home");
-});
-app.get("/admin_home", (req, res) => {
-  res.render("admin_home");
-});
 app.get("/add_department", (req, res) => {
   res.render("add_department");
 });
 app.get("/add_cource", (req, res) => {
-  res.render("add_material");
+  connection.query("SELECT DISTINCT required_course FROM course;", function (err, courseResult) {
+    if (err) throw err;
+    console.log(courseResult);
+
+    connection.query("SELECT DISTINCT department_name FROM department;", function (err, departmentResult) {
+      if (err) throw err;
+      console.log(departmentResult);
+
+      //res.render("add_material", { course: courseResult, department: departmentResult });
+      res.render("add_material",{ course: courseResult, department: departmentResult });
+    });
+  });
 });
 
 app.get("/absence", (req, res) => {
@@ -247,7 +252,7 @@ app.get("/enroll_course", (req, res) => {
   res.render("enroll_course");
 });
 
-//form to add student
+//Add student
 app.get("/add_student", (req, res) => {
     var con= connection.query("SELECT  DISTINCT department_name FROM department; ", function (err, result , files) {
       if (err) throw err;
@@ -282,11 +287,24 @@ app.post("/add_student", (req, res) => {
   );
 });
 
+
+
 ///404 error
 app.use((req, res) => {
   res.status(404).send("sorry can't find that!");
 });
 
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
+
+
+/*  <div style="display: flex;">
+<label for="department" style="    margin-top: 7px; margin-left: 34px;font-style: italic;">Department</label><br> <br>
+<select name="department" id="department" style="margin-left: 30px; color: #77686d; margin-top: 0;">                     
+    <% department.forEach((dept) => { %>
+        <option value="<%= dept.department_name %>"><%= dept.department_name %></option>
+        <% }); %>
+    </select>
+</div>  */
