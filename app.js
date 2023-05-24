@@ -369,11 +369,4 @@ app.listen(port, () => {
 });
 
 
-/*  <div style="display: flex;">
-<label for="department" style="    margin-top: 7px; margin-left: 34px;font-style: italic;">Department</label><br> <br>
-<select name="department" id="department" style="margin-left: 30px; color: #77686d; margin-top: 0;">                     
-    <% department.forEach((dept) => { %>
-        <option value="<%= dept.department_name %>"><%= dept.department_name %></option>
-        <% }); %>
-    </select>
-</div>  */
+
