@@ -40,53 +40,37 @@
         </div>
     </nav>
 
-    <form action="/login" method="post">
+  <form action="/login" method="post">
         <div class="form col">
             <div
                 style="border:1px solid  #c9e3da;;border-radius: 20px;padding: 13px;   padding-left: 0px;  height: auto;">
                 <div class="cform">
                     <h1>Login </h1>
                     <i class="bi bi-person" style="width: 15px; color: white; "></i>
-                    <label for="name" style="font-style: italic;" >Username</label> <br> <br>
-                    <input placeholder="Enter Username" style="font-style: italic;" type="text" id="name"  required/>
+                    <label for="Email" style="font-style: italic;" >Email</label> <br> <br>
+                    <input name="Email" placeholder="Enter Your Email" style="font-style: italic;" type="text" id="Email"  required/>
                 </div>
                 <div class="cform">
                     <i class="bi bi-lock-fill" style="width: 15px; color: white;"></i>
-                    <label for="pass" style="font-style: italic;">Password</label><br> <br>
+                    <label for="Id" style="font-style: italic;">ID</label><br> <br>
 
-                    <input placeholder="Enter password " style="font-style: italic;" type="password" id="pass" required />
-                    <!-- <div class="last">
-                        <a href="">
-                            <p style="font-style: italic; margin-top: 5px;">Forget password? </p>
-                        </a>
-                    </div> -->
+                    <input name="Id" placeholder="Enter Your Id " style="font-style: italic;" type="password" id="Id" required />
                 </div>
+
                 <div class="data">
-                    <input type="radio" id="System_User" name="fav_language"
-                        style="width:15px;margin-left: 29px; font-style: italic; margin-top: 5px;" value="System_User">
-                    <label for="System_User">Admin</label><br>
-                    <input type="radio" id="Staff" name="fav_language"
-                        style="width:15px; font-style: italic; margin-top: 2px;" value="Staff" >
-                    <label for="Staff">Doctor</label><br>
-                    <input type="radio" id="Student" name="fav_language"
-                        style="width:15px; font-style: italic; margin-top: 2px;" value="Student" >
-                    <label for="Student" style="    margin-right: 14px;">Student</label>
+                    <input type="radio" id="Admin" name="user" style="width:15px;margin-left: 29px; font-style: italic; margin-top: 5px;" value="Admin">
+                    <label for="Admin">Admin</label><br>
+                    <input type="radio" id="Doctor" name="user"style="width:15px; font-style: italic; margin-top: 2px;" value="Doctor" >
+                    <label for="Doctor">Doctor</label><br>
+                    <input type="radio" id="Student" name="user"style="width:15px; font-style: italic; margin-top: 2px;" value="Student" >
+                    <label for="Student" style="margin-right: 14px;">Student</label>
                 </div>
                 <div class="buttom ">
                     <input style="font-style: italic;" type="submit" value="Login" />
-                    <!-- <input type="reset"/> -->
-                </div>
-               <!-- <div class="last">
-                    <a href="">
-                        <p style="font-style: italic; margin-left: 117px;">Don't have an accont ? </p>
-                    </a>
-                </div>
-                <div class="last">
-                     <p>Lost your password? </p> 
-                <a><p>Don't have an accont </p></a>
-                </div>-->
+                </div>           
             </div>
         </div>
+
     </form>
 <!-- <script src="/public/login.js"></script> -->
 <script>
