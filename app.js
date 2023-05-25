@@ -236,9 +236,8 @@ app.get("/add_cource", (req, res) => {
   });
 });
 
-app.get("/absence", (req, res) => {
-  res.render("absence");
-});
+
+
 
 app.get("/display_course", (req, res) => {
   res.render("display_course");
