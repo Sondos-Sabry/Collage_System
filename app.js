@@ -1,9 +1,85 @@
+
 const express = require("express");
 const multer = require("multer");
 const bcrypt = require('bcrypt');
 const cors = require("cors");
 const app = express();
 const port = 3000;
+
+
+app.get("/login", function (req, res) {
+  res.render("Login", { error: req.query.error });
+});
+// Handle the form submission
+app.post("/login", (req, res) => {
+  console.log(req.body);
+
+  const Email = req.body.Email;
+  const Id = req.body.Id;
+  const user = req.body.user;
+
+  if (Email && Id) {
+    if (user === "Student") {
+      const query = "SELECT * FROM student WHERE Email = ? AND Id = ?";
+      connection.query(query, [Email, Id], (error, data) => {
+        if (data.length > 0) {
+          if ((data.Id = Id)) {
+            req.Id = data.Id;
+            res.redirect("student_home");
+          } else if (data.Id != Id) {
+            res.render("login", { error: "Incorrect Id" });
+          }
+        } else {
+          res.render("login", {
+            error: "please make sure from your email and id ",
+          });
+        }
+        res.end();
+      });
+    } else if (user === "Doctor") {
+      const query = "SELECT * FROM doctor WHERE Email = ? AND Id = ?";
+      connection.query(query, [Email, Id], (error, data) => {
+        if (data.length > 0) {
+          if ((data.Id = Id)) {
+            req.Id = data.Id;
+            res.redirect("doctor_home");
+          } else {
+            res.render("login", { error: "Incorrect Id" });
+          }
+        } else {
+          res.render("login", { error: "please sure from your email and id " });
+        }
+        res.end();
+      });
+    } else if (user === "Admin") {
+      const query = "SELECT * FROM admin WHERE Email = ? AND Id = ?";
+      connection.query(query, [Email, Id], (error, data) => {
+        if (data.length > 0) {
+          if ((data.Id = Id)) {
+            req.Id = data.Id;
+            res.redirect("admin_home");
+          } else {
+            res.render("login", { error: "Incorrect Id" });
+          }
+        } else {
+          res.render("login", {
+            error: "please make sure from your email and id ",
+          });
+        }
+        res.end();
+      });
+    } else {
+      res.render("login", {
+        error: "Please Enter Email Address and Your Academic Id",
+      });
+
+      res.end();
+    }
+  }
+
+});
+
+
 
 ///upload files
 const storage = multer.diskStorage({
@@ -222,7 +298,7 @@ app.get("/add_department", (req, res) => {
   res.render("add_department");
 });
 app.get("/add_cource", (req, res) => {
-  connection.query("SELECT DISTINCT required_course FROM course;", function (err, courseResult) {
+  connection.query("SELECT DISTINCT course_name FROM course;", function (err, courseResult) {
     if (err) throw err;
     console.log(courseResult);
 
@@ -249,6 +325,18 @@ app.get("/download_course", (req, res) => {
 });
 
 app.get("/enroll_course", (req, res) => {
+  connection.query("SELECT DISTINCT department_name FROM department;", function (err, departmentResult) {
+    if (err) throw err;
+    console.log(departmentResult);
+
+    connection.query("SELECT DISTINCT course_name FROM course;", function (err, courseResult) {
+      if (err) throw err;
+      console.log(courseResult);
+
+      //res.render("add_material", { course: courseResult, department: departmentResult });
+      res.render("add_material",{ department: departmentResult,course: courseResult });
+    });
+  });
   res.render("enroll_course");
 });
 
