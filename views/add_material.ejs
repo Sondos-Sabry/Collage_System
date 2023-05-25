@@ -71,7 +71,7 @@
                             <label for="required" style="    margin-top: 7px; margin-left: 34px;font-style: italic;">required course</label><br> <br>
                             <select name="required" id="required" style="margin-left: 30px; color: #77686d; margin-top: 0;">                     
                                 <% course.forEach((required) => { %>
-                                    <option value="<%= required.required_course %>"><%= required.required_course %></option>
+                                    <option value="<%= required.course_name %>"><%= required.course_name %></option>
                                     <% }); %>
                                 </select>
                             </div>
