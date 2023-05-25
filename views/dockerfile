@@ -1,0 +1,17 @@
+# Use a base image
+FROM nginx:latest
+
+# Set the working directory inside the container
+WORKDIR /usr/share/nginx/html
+
+# Copy the EJS file to the working directory
+COPY Home.ejs .
+
+# Install any required dependencies or tools
+# (If your EJS file requires additional dependencies, you can install them here)
+
+# Expose the default Nginx port (80)
+EXPOSE 80
+
+# Start Nginx server when the container starts
+CMD ["nginx", "-g", "daemon off;"]
